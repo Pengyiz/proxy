@@ -170,6 +170,21 @@ Proxy:
     # ws-headers:
     #   Host: v2ray.com
 
+  - name: "Singapore"
+    type: vmess
+    server: singapore.percyz.com
+    port: 4617
+    uuid: c4957ee4-860a-f24d-347e-e2d492dada4a
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
   # 网易云
   - name: "Android-SG"
     type: http
