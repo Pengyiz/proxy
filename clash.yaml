@@ -487,7 +487,6 @@ Rule:
   - DOMAIN-KEYWORD,zjtoolbar,REJECT
 
 # 国外网站
-  - DOMAIN-SUFFIX,percyz.com,Proxy
   - DOMAIN-SUFFIX,9to5mac.com,Proxy
   - DOMAIN-SUFFIX,abpchina.org,Proxy
   - DOMAIN-SUFFIX,adblockplus.org,Proxy
