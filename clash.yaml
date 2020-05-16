@@ -269,6 +269,7 @@ Proxy Group:
     type: select
     proxies:
       - Japan
+      - Singapore
 
   - name: UnblockNeteaseMusic
     type: select
