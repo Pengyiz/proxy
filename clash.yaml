@@ -268,12 +268,14 @@ Proxy Group:
   - name: Proxy
     type: select
     proxies:
+      - DIRECT
       - Japan
       - Singapore
 
   - name: UnblockNeteaseMusic
     type: select
     proxies:
+      - DIRECT
       - Android-SG
       - IOS-SG
 
@@ -485,6 +487,7 @@ Rule:
   - DOMAIN-KEYWORD,zjtoolbar,REJECT
 
 # 国外网站
+  - DOMAIN-SUFFIX,percyz.com,Proxy
   - DOMAIN-SUFFIX,9to5mac.com,Proxy
   - DOMAIN-SUFFIX,abpchina.org,Proxy
   - DOMAIN-SUFFIX,adblockplus.org,Proxy
