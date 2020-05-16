@@ -281,6 +281,11 @@ Proxy Group:
 
 
 Rule:
+# Percy
+  - DOMAIN,www.percyz.com,Proxy
+  - DOMAIN,docker.percyz.com,Proxy
+  - DOMAIN,panel.percyz.com,Proxy
+
 # Unblock Netease Music
   - DOMAIN-SUFFIX,163.com,UnblockNeteaseMusic
   - DOMAIN-SUFFIX,126.net,UnblockNeteaseMusic
