@@ -187,9 +187,24 @@ Proxy:
 
   - name: "NanTong"
     type: vmess
-    server: singapore.percyz.cn
+    server: nantong.percyz.cn
     port: 443
-    uuid: 91369ccd-6cba-4690-95a2-e8ab2474094d
+    uuid: 4ce11d59-f35b-a55d-6d94-b9b0a0c48c3d
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+  - name: "HangZhou"
+    type: vmess
+    server: hangzhou.percyz.cn
+    port: 443
+    uuid: af9e6c6b-953b-0ec2-50be-d0312833073c
     alterId: 32
     cipher: auto
     tls: true
@@ -288,6 +303,7 @@ Proxy Group:
       - Japan
       - Singapore
       - NanTong
+      - HangZhou
 
   - name: UnblockNeteaseMusic
     type: select
