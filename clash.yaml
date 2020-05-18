@@ -533,7 +533,7 @@ Rule:
   - DOMAIN-SUFFIX,cachefly.net,Proxy
   - DOMAIN-SUFFIX,chromium.org,Proxy
   - DOMAIN-SUFFIX,cl.ly,Proxy
-  - DOMAIN-SUFFIX,cloudflare.com,Proxy
+  - DOMAIN-SUFFIX,cloudflare.com,DIRECT
   - DOMAIN-SUFFIX,cloudfront.net,Proxy
   - DOMAIN-SUFFIX,cloudmagic.com,Proxy
   - DOMAIN-SUFFIX,cmail19.com,Proxy
