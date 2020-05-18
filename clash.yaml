@@ -185,6 +185,22 @@ Proxy:
     # ws-headers:
     #   Host: v2ray.com
 
+  - name: "NanTong"
+    type: vmess
+    server: singapore.percyz.cn
+    port: 443
+    uuid: 91369ccd-6cba-4690-95a2-e8ab2474094d
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+
   # 网易云
   - name: "Android-SG"
     type: http
@@ -271,6 +287,7 @@ Proxy Group:
       - DIRECT
       - Japan
       - Singapore
+      - NanTong
 
   - name: UnblockNeteaseMusic
     type: select
