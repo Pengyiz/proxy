@@ -155,20 +155,6 @@ Proxy:
 
 # vmess
 # 支持加密方式：auto / aes-128-gcm / chacha20-poly1305 / none
-  - name: "Japan"
-    type: vmess
-    server: japan.percyz.com
-    port: 4617
-    uuid: d7e16eb2-feac-46ac-b12c-8e580caaf2a9
-    alterId: 100
-    cipher: auto
-    # udp: true
-    tls: true
-    # skip-cert-verify: true
-    network: ws
-    ws-path: /
-    # ws-headers:
-    #   Host: v2ray.com
 
   - name: "Singapore"
     type: vmess
@@ -205,6 +191,51 @@ Proxy:
     server: hangzhou.percyz.cn
     port: 443
     uuid: af9e6c6b-953b-0ec2-50be-d0312833073c
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+  - name: "YaoYao"
+    type: vmess
+    server: yaoyao.percyz.cn
+    port: 443
+    uuid: e8649e9a-2a1c-c30b-6df5-fc59e607e91c
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+  - name: "DianDian"
+    type: vmess
+    server: diandian.percyz.cn
+    port: 443
+    uuid: 9104939e-21de-8d92-081a-c1ee60fb099d
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+  - name: "LongLong"
+    type: vmess
+    server: longlong.percyz.cn
+    port: 443
+    uuid: be1efed4-dad9-ee96-6cb7-b23fc238658f
     alterId: 32
     cipher: auto
     tls: true
@@ -300,10 +331,9 @@ Proxy Group:
     type: select
     proxies:
       - DIRECT
-      - Japan
-      - Singapore
       - NanTong
       - HangZhou
+      - LongLong
 
   - name: UnblockNeteaseMusic
     type: select
