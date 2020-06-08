@@ -335,7 +335,6 @@ Proxy Group:
       - HangZhou
       - LongLong
       - Singapore
-      - NT-SS
 
   - name: UnblockNeteaseMusic
     type: select
@@ -343,6 +342,7 @@ Proxy Group:
       - DIRECT
       - Android-SG
       - IOS-SG
+      - NT-SS
 
 
 Rule:
