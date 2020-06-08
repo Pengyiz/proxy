@@ -118,13 +118,13 @@ Proxy:
 #   rc4-md5 chacha20 chacha20-ietf xchacha20
 #   chacha20-ietf-poly1305 xchacha20-ietf-poly1305
 
-  # - name: "ss1"
-  #   type: ss
-  #   server: server
-  #   port: 443
-  #   cipher: chacha20-ietf-poly1305
-  #   password: "password"
-  #   # udp: true
+  - name: "NT-SS"
+    type: ss
+    server: percyz.myds.me
+    port: 8765
+    cipher: aes-256-cfb
+    password: "licaocao@89757"
+    # udp: true
   #
   # - name: "ss2"
   #   type: ss
@@ -335,6 +335,7 @@ Proxy Group:
       - HangZhou
       - LongLong
       - Singapore
+      - NT-SS
 
   - name: UnblockNeteaseMusic
     type: select
@@ -349,7 +350,7 @@ Rule:
   - DOMAIN,www.percyz.com,Proxy
   - DOMAIN,docker.percyz.com,Proxy
   - DOMAIN,panel.percyz.com,Proxy
-  - DOMAIN-SUFFIX,115.com,Proxy
+
 
 
 # Unblock Netease Music
