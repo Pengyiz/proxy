@@ -350,7 +350,7 @@ Rule:
   - DOMAIN,www.percyz.com,Proxy
   - DOMAIN,docker.percyz.com,Proxy
   - DOMAIN,panel.percyz.com,Proxy
-  - DOMAIN-SUFFIX,easy-mock.com,Proxy
+  
 
 
 
