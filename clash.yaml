@@ -348,9 +348,9 @@ Proxy Group:
 Rule:
 # Percy
   - DOMAIN,www.percyz.com,Proxy
-  - DOMAIN,docker.percyz.com,Proxy
-  - DOMAIN,panel.percyz.com,Proxy
-  
+  - DOMAIN,docker.percyz.cn,Proxy
+  - DOMAIN,panel.percyz.cn,Proxy
+
 
 
 
