@@ -156,6 +156,21 @@ Proxy:
 # vmess
 # 支持加密方式：auto / aes-128-gcm / chacha20-poly1305 / none
 
+  - name: "Melbourne"
+    type: vmess
+    server: melb.percyz.com
+    port: 443
+    uuid: 785ef0df-d612-ff7c-f00a-5facda890cd8
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
   - name: "Singapore"
     type: vmess
     server: singapore.percyz.com
@@ -335,6 +350,7 @@ Proxy Group:
       - HangZhou
       - LongLong
       - Singapore
+      - Melbourne
 
   - name: UnblockNeteaseMusic
     type: select
