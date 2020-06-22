@@ -204,7 +204,7 @@ Proxy:
   - name: "HangZhou"
     type: vmess
     server: hangzhou.percyz.cn
-    port: 443
+    port: 55443
     uuid: af9e6c6b-953b-0ec2-50be-d0312833073c
     alterId: 32
     cipher: auto
