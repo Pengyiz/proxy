@@ -174,7 +174,7 @@ Proxy:
   - name: "Singapore"
     type: vmess
     server: singapore.percyz.com
-    port: 443
+    port: 55443
     uuid: c4957ee4-860a-f24d-347e-e2d492dada4a
     alterId: 32
     cipher: auto
@@ -204,7 +204,7 @@ Proxy:
   - name: "HangZhou"
     type: vmess
     server: hangzhou.percyz.cn
-    port: 55443
+    port: 443
     uuid: af9e6c6b-953b-0ec2-50be-d0312833073c
     alterId: 32
     cipher: auto
