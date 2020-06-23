@@ -379,6 +379,7 @@ Rule:
   - DOMAIN,www.percyz.com,Proxy
   - DOMAIN,docker.percyz.cn,Proxy
   - DOMAIN,panel.percyz.cn,Proxy
+  - DOMAIN,tinymm.percyz.com,Proxy
 
 # Unblock Netease Music
   - DOMAIN-SUFFIX,163.com,UnblockNeteaseMusic
