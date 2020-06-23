@@ -277,6 +277,10 @@ Proxy:
     # tls: true
     # skip-cert-verify: true
 
+  - name: "Unblock-Mel"
+    type: http
+    server: unblockmusic.percyz.com
+    port: 48080
 
   # # socks5
   # - name: "socks"
@@ -358,7 +362,7 @@ Proxy Group:
       - DIRECT
       - Android-SG
       - IOS-SG
-      - NT-SS
+      - Unblock-Mel
 
 
 Rule:
