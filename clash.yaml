@@ -158,7 +158,7 @@ Proxy:
 
   - name: "Melbourne"
     type: vmess
-    server: melb.percyz.com
+    server: mel.percyz.com
     port: 443
     uuid: 785ef0df-d612-ff7c-f00a-5facda890cd8
     alterId: 32
