@@ -223,15 +223,19 @@ proxies:
 
 
   # 网易云
+  - name: "Android-SG"
+    type: http
+    server: music.percyz.com
+    port: 5600
+    # tls: true
+    # skip-cert-verify: true
 
-  - name: "Unblock-Sin"
-    type: vmess
-    server: 3.0.114.109
-    port: 48080
-    uuid: 5089221a-b958-11ea-b3de-0242ac130004
-    alterId: 32
-    cipher: auto
-
+  - name: "IOS-SG"
+    type: http
+    server: music.percyz.com
+    port: 5500
+    # tls: true
+    # skip-cert-verify: true
 
   - name: "Unblock-Mel"
     type: vmess
@@ -271,7 +275,8 @@ proxy-groups:
     type: select
     proxies:
       - DIRECT
-      - Unblock-Sin
+      - Android-SG
+      - IOS-SG
       - Unblock-Mel
 
   # 白名单模式 PROXY, 黑名单模式 DIRECT, 不知道别动
