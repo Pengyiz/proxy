@@ -283,6 +283,7 @@ Proxy:
     port: 48080
     uuid: 7aa01038-b951-11ea-b3de-0242ac130004
     alterId: 32
+    cipher: auto
 
   # # socks5
   # - name: "socks"
