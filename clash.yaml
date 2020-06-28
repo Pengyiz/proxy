@@ -279,7 +279,7 @@ Proxy:
 
   - name: "Unblock-Mel"
     type: http
-    server: unblockmusic.percyz.com
+    server: 168.138.9.128
     port: 48080
 
   # # socks5
