@@ -278,9 +278,11 @@ Proxy:
     # skip-cert-verify: true
 
   - name: "Unblock-Mel"
-    type: http
+    type: vmess
     server: 168.138.9.128
     port: 48080
+    uuid: 7aa01038-b951-11ea-b3de-0242ac130004
+    alterId: 32
 
   # # socks5
   # - name: "socks"
