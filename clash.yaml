@@ -275,7 +275,7 @@ Proxy:
 
   - name: "Unblock-Mel"
     type: vmess
-    server: 168.138.13.5
+    server: 168.138.9.7
     port: 48080
     uuid: 7aa01038-b951-11ea-b3de-0242ac130004
     alterId: 32
