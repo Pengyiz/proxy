@@ -261,6 +261,51 @@ Proxy:
     # ws-headers:
     #   Host: v2ray.com
 
+  - name: "CDN_1"
+    type: vmess
+    server: cdn-1.percyz.cn
+    port: 443
+    uuid: 3ddca4d6-bc71-11ea-b3de-0242ac130004
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+
+  - name: "CDN_2"
+    type: vmess
+    server: cdn-2.percyz.cn
+    port: 443
+    uuid: 722ed592-bc71-11ea-b3de-0242ac130004
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
+
+  - name: "CDN_3"
+    type: vmess
+    server: cdn-3.percyz.cn
+    port: 443
+    uuid: 9faea47a-bc71-11ea-b3de-0242ac130004
+    alterId: 32
+    cipher: auto
+    tls: true
+    # udp: true
+    # skip-cert-verify: true
+    network: ws
+    ws-path: /
+    # ws-headers:
+    #   Host: v2ray.com
 
   # 网易云
 
@@ -354,6 +399,9 @@ Proxy Group:
       - LongLong
       - Singapore
       - Melbourne
+      - CDN_1
+      - CDN_2
+      - CDN_3
 
   - name: UnblockNeteaseMusic
     type: select
