@@ -1,0 +1,707 @@
+# ★第一部分，系统配置
+port: 7890        # HTTP 代理端口
+socks-port: 7891  # SOCKS5 代理端口
+mixed-port: 1080  # HTTP and SOCKS5 代理 混合端口
+redir-port: 7892 # 透明代理端口, Linux and macOS 使用，包括Openwrt
+allow-lan: false
+bind-address: "*" # 是否允许局域网连接，bind-address: "*" 代表允许所有
+mode: "rule"        # 运行模式，rule 规则 / global 全局 / direct 直连
+log-level: "silent" # info / warning / error / debug / silent # silent 表示静默
+#interface-name: 本地连接            # 出口网卡名称，例如“本地连接”，Tun 模式使用
+ipv6: false                          # true 启用，false 关闭
+external-controller: "0.0.0.0:9090"  # 面板调用地址为 本机ip:9090 或 http://clash.razord.top
+
+
+
+# ★第二部分，DNS配置
+# 下方为DNS配置，如无此段，关闭DNS功能，此段设置与规则配合使用
+# 本模板用域名白名单分流，小白谨慎修改DNS，114.114.114.114 可替换为从ISP自动获取的地址
+dns:
+  enable: true                     # true 启用，false 关闭
+  listen: 0.0.0.0:53             # 监听端口，openwrt转发端口注意
+
+  # 仅填写 DNS 服务器的 IP 地址
+  default-nameserver:
+    - 1.2.4.8
+    - 223.5.5.5
+    - 114.114.114.114
+    - 119.29.29.29
+  enhanced-mode: redir-host # 或 fake-ip
+  fake-ip-range: 198.18.0.1/16 # Fake IP 地址池 (CIDR 形式)
+   # 在以下列表的域名将不会被解析为 fake ip，这些域名相关的解析请求将会返回它们真实的 IP 地址
+  fake-ip-filter:
+    # 以下域名列表参考自 vernesong/OpenClash 项目，并由 Hackl0us 整理补充
+    # === LAN ===
+    - '*.lan'
+    # === Linksys Wireless Router ===
+    - '*.linksys.com'
+    - '*.linksyssmartwifi.com'
+    # === Apple Software Update Service ===
+    - 'swscan.apple.com'
+    - 'mesu.apple.com'
+    # === Windows 10 Connnect Detection ===
+    - '*.msftconnecttest.com'
+    - '*.msftncsi.com'
+    # === NTP Service ===
+    - 'time.*.com'
+    - 'time.*.gov'
+    - 'time.*.edu.cn'
+    - 'time.*.apple.com'
+
+    - 'time1.*.com'
+    - 'time2.*.com'
+    - 'time3.*.com'
+    - 'time4.*.com'
+    - 'time5.*.com'
+    - 'time6.*.com'
+    - 'time7.*.com'
+
+    - 'ntp.*.com'
+    - 'ntp.*.com'
+    - 'ntp1.*.com'
+    - 'ntp2.*.com'
+    - 'ntp3.*.com'
+    - 'ntp4.*.com'
+    - 'ntp5.*.com'
+    - 'ntp6.*.com'
+    - 'ntp7.*.com'
+
+    - '*.time.edu.cn'
+    - '*.ntp.org.cn'
+    - '+.pool.ntp.org'
+
+    - 'time1.cloud.tencent.com'
+    # === Music Service ===
+    ## NetEase
+    - '+.music.163.com'
+    - '*.126.net'
+    ## Baidu
+    - 'musicapi.taihe.com'
+    - 'music.taihe.com'
+    ## Kugou
+    - 'songsearch.kugou.com'
+    - 'trackercdn.kugou.com'
+    ## Kuwo
+    - '*.kuwo.cn'
+    ## JOOX
+    - 'api-jooxtt.sanook.com'
+    - 'api.joox.com'
+    - 'joox.com'
+    ## QQ
+    - '+.y.qq.com'
+    - '+.music.tc.qq.com'
+    - 'aqqmusic.tc.qq.com'
+    - '+.stream.qqmusic.qq.com'
+    ## Xiami
+    - '*.xiami.com'
+    ## Migu
+    - '+.music.migu.cn'
+    # === Game Service ===
+    ## Nintendo Switch
+    - '+.srv.nintendo.net'
+    ## Sony PlayStation
+    - '+.stun.playstation.net'
+    ## Microsoft Xbox
+    - 'xbox.*.microsoft.com'
+    - '+.xboxlive.com'
+    # === Other ===
+    ## QQ Quick Login
+    - 'localhost.ptlogin2.qq.com'
+    ## Golang
+    - 'proxy.golang.org'
+    ## STUN Server
+    - 'stun.*.*'
+    - 'stun.*.*.*'
+
+  nameserver:
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query
+
+
+
+
+# ★第三部分，代理配置
+######################################################★注意，★★替换
+proxies:                                             # 自建节点列表
+  # ★V2ray 自建节点 1  ★Vmess+TLS+Websocket 方式
+  - name: "🇭🇰 香港节点"                               # 节点名，与下方组设置一致，否则报错
+    type: vmess                                      # 节点类型
+    server: mock.percyz.cn                           # ★★服务器，替换为你自己的
+    port: 443
+    uuid: 3c8c03c8-a3b6-4948-ba58-d2d757500740       # ★★UUID，替换为你自己的
+    alterId: 32
+    cipher: auto
+    udp: true
+    tls: true
+    skip-cert-verify: false
+    network: ws
+    ws-path: /cyberpunk                              # ★★websocket路径，替换为你自己的
+
+  # ★V2ray 自建节点 2  ★Vmess+TLS+Websocket 方式
+  - name: "🇭🇰 香港备用"                               # 节点名，与下方组设置一致，否则报错
+    type: vmess                                      # 节点类型
+    server: kaneki.doomo.club                        # ★★服务器，替换为你自己的
+    port: 443
+    uuid: 0448cd9e-e41e-45ad-9699-fe02e73c5591       # ★★UUID，替换为你自己的
+    alterId: 5
+    cipher: auto
+    udp: true
+    tls: true
+    skip-cert-verify: false
+    network: ws
+    ws-path: /cyberpunk2077                          # ★★websocket路径，替换为你自己的
+
+  # ★V2ray 自建节点3   ★Vmess+TLS+Websocket 方式
+  - name: "🇦🇺 澳洲节点"                               # 节点名，与下方组设置一致，否则报错
+    type: vmess                                      # 节点类型
+    server: cyber.percyz.cn                          # ★★服务器，替换为你自己的
+    port: 443
+    uuid: fbb45052-21a8-345c-e3e2-13c47065f0ce       # ★★UUID，替换为你自己的
+    alterId: 32
+    cipher: auto
+    udp: true
+    tls: true
+    skip-cert-verify: false
+    network: ws
+    ws-path: /punk2077                               # ★★websocket路径，替换为你自己的
+
+  # ★V2ray 自建节点4   ★Vmess+TLS+Websocket 方式
+  - name: "🇦🇺 澳洲备用"                               # 节点名，与下方组设置一致，否则报错
+    type: vmess                                      # 节点类型
+    server: www.percyz.com                           # ★★服务器，替换为你自己的
+    port: 443
+    uuid: 785ef0df-d612-ff7c-f00a-5facda890cd8       # ★★UUID，替换为你自己的
+    alterId: 32
+    cipher: auto
+    udp: true
+    tls: true
+    skip-cert-verify: false
+    network: ws
+    ws-path: /cyberpunk                              # ★★websocket路径，替换为你自己的
+
+
+proxy-groups:                                      # 代理组列表
+
+  - name: "🔰 节点选择"                             # ★组名，包含下面的（节点/组）
+    type: select                                   # select 表示手动切换，默认proxies第一个
+    proxies:                                       # 代理节点（组）列表
+      - "🇭🇰 香港节点"                               # 节点名  与上方设置一致，否则报错
+      - "🇭🇰 香港备用"                               # 节点名，与上方设置一致，否则报错
+      - "🇦🇺 澳洲节点"                               # 节点名，与上方设置一致，否则报错
+      - "🇦🇺 澳洲备用"                               # 节点名，与上方设置一致，否则报错
+
+
+# ★第四部分，规则配置
+rules:
+  # 自定义规则
+  ## 您可以在此处插入您补充的自定义规则（请注意保持缩进）
+
+  # Apple
+  - DOMAIN,safebrowsing.urlsec.qq.com,DIRECT # 如果您并不信任此服务提供商或防止其下载消耗过多带宽资源，可以进入 Safari 设置，关闭 Fraudulent Website Warning 功能，并使用 REJECT 策略。
+  - DOMAIN,safebrowsing.googleapis.com,DIRECT # 如果您并不信任此服务提供商或防止其下载消耗过多带宽资源，可以进入 Safari 设置，关闭 Fraudulent Website Warning 功能，并使用 REJECT 策略。
+  - DOMAIN,developer.apple.com,🔰 节点选择
+  - DOMAIN-SUFFIX,digicert.com,🔰 节点选择
+  - DOMAIN,ocsp.apple.com,🔰 节点选择
+  - DOMAIN,ocsp.comodoca.com,🔰 节点选择
+  - DOMAIN,ocsp.usertrust.com,🔰 节点选择
+  - DOMAIN,ocsp.sectigo.com,🔰 节点选择
+  - DOMAIN,ocsp.verisign.net,🔰 节点选择
+  - DOMAIN-SUFFIX,apple-dns.net,🔰 节点选择
+  - DOMAIN,testflight.apple.com,🔰 节点选择
+  - DOMAIN,sandbox.itunes.apple.com,🔰 节点选择
+  - DOMAIN,itunes.apple.com,🔰 节点选择
+  - DOMAIN-SUFFIX,apps.apple.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blobstore.apple.com,🔰 节点选择
+  - DOMAIN,cvws.icloud-content.com,🔰 节点选择
+  - DOMAIN-SUFFIX,mzstatic.com,DIRECT
+  - DOMAIN-SUFFIX,itunes.apple.com,DIRECT
+  - DOMAIN-SUFFIX,icloud.com,DIRECT
+  - DOMAIN-SUFFIX,icloud-content.com,DIRECT
+  - DOMAIN-SUFFIX,me.com,DIRECT
+  - DOMAIN-SUFFIX,aaplimg.com,DIRECT
+  - DOMAIN-SUFFIX,cdn20.com,DIRECT
+  - DOMAIN-SUFFIX,cdn-apple.com,DIRECT
+  - DOMAIN-SUFFIX,akadns.net,DIRECT
+  - DOMAIN-SUFFIX,akamaiedge.net,DIRECT
+  - DOMAIN-SUFFIX,edgekey.net,DIRECT
+  - DOMAIN-SUFFIX,mwcloudcdn.com,DIRECT
+  - DOMAIN-SUFFIX,mwcname.com,DIRECT
+  - DOMAIN-SUFFIX,apple.com,DIRECT
+  - DOMAIN-SUFFIX,apple-cloudkit.com,DIRECT
+  - DOMAIN-SUFFIX,apple-mapkit.com,DIRECT
+  # - DOMAIN,e.crashlytics.com,REJECT //注释此选项有助于大多数App开发者分析崩溃信息；如果您拒绝一切崩溃数据统计、搜集，请取消 # 注释。
+
+  # 国内网站
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-KEYWORD,-cn,DIRECT
+
+  - DOMAIN-SUFFIX,126.com,DIRECT
+  - DOMAIN-SUFFIX,126.net,DIRECT
+  - DOMAIN-SUFFIX,127.net,DIRECT
+  - DOMAIN-SUFFIX,163.com,DIRECT
+  - DOMAIN-SUFFIX,360buyimg.com,DIRECT
+  - DOMAIN-SUFFIX,36kr.com,DIRECT
+  - DOMAIN-SUFFIX,acfun.tv,DIRECT
+  - DOMAIN-SUFFIX,air-matters.com,DIRECT
+  - DOMAIN-SUFFIX,aixifan.com,DIRECT
+  - DOMAIN-KEYWORD,alicdn,DIRECT
+  - DOMAIN-KEYWORD,alipay,DIRECT
+  - DOMAIN-KEYWORD,taobao,DIRECT
+  - DOMAIN-SUFFIX,amap.com,DIRECT
+  - DOMAIN-SUFFIX,autonavi.com,DIRECT
+  - DOMAIN-KEYWORD,baidu,DIRECT
+  - DOMAIN-SUFFIX,bdimg.com,DIRECT
+  - DOMAIN-SUFFIX,bdstatic.com,DIRECT
+  - DOMAIN-SUFFIX,bilibili.com,DIRECT
+  - DOMAIN-SUFFIX,bilivideo.com,DIRECT
+  - DOMAIN-SUFFIX,caiyunapp.com,DIRECT
+  - DOMAIN-SUFFIX,clouddn.com,DIRECT
+  - DOMAIN-SUFFIX,cnbeta.com,DIRECT
+  - DOMAIN-SUFFIX,cnbetacdn.com,DIRECT
+  - DOMAIN-SUFFIX,cootekservice.com,DIRECT
+  - DOMAIN-SUFFIX,csdn.net,DIRECT
+  - DOMAIN-SUFFIX,ctrip.com,DIRECT
+  - DOMAIN-SUFFIX,dgtle.com,DIRECT
+  - DOMAIN-SUFFIX,dianping.com,DIRECT
+  - DOMAIN-SUFFIX,douban.com,DIRECT
+  - DOMAIN-SUFFIX,doubanio.com,DIRECT
+  - DOMAIN-SUFFIX,duokan.com,DIRECT
+  - DOMAIN-SUFFIX,easou.com,DIRECT
+  - DOMAIN-SUFFIX,ele.me,DIRECT
+  - DOMAIN-SUFFIX,feng.com,DIRECT
+  - DOMAIN-SUFFIX,fir.im,DIRECT
+  - DOMAIN-SUFFIX,frdic.com,DIRECT
+  - DOMAIN-SUFFIX,g-cores.com,DIRECT
+  - DOMAIN-SUFFIX,godic.net,DIRECT
+  - DOMAIN-SUFFIX,gtimg.com,DIRECT
+  - DOMAIN,cdn.hockeyapp.net,DIRECT
+  - DOMAIN-SUFFIX,hongxiu.com,DIRECT
+  - DOMAIN-SUFFIX,hxcdn.net,DIRECT
+  - DOMAIN-SUFFIX,iciba.com,DIRECT
+  - DOMAIN-SUFFIX,ifeng.com,DIRECT
+  - DOMAIN-SUFFIX,ifengimg.com,DIRECT
+  - DOMAIN-SUFFIX,ipip.net,DIRECT
+  - DOMAIN-SUFFIX,iqiyi.com,DIRECT
+  - DOMAIN-SUFFIX,jd.com,DIRECT
+  - DOMAIN-SUFFIX,jianshu.com,DIRECT
+  - DOMAIN-SUFFIX,knewone.com,DIRECT
+  - DOMAIN-SUFFIX,le.com,DIRECT
+  - DOMAIN-SUFFIX,lecloud.com,DIRECT
+  - DOMAIN-SUFFIX,lemicp.com,DIRECT
+  - DOMAIN-SUFFIX,licdn.com,DIRECT
+  - DOMAIN-SUFFIX,linkedin.com,DIRECT
+  - DOMAIN-SUFFIX,luoo.net,DIRECT
+  - DOMAIN-SUFFIX,meituan.com,DIRECT
+  - DOMAIN-SUFFIX,meituan.net,DIRECT
+  - DOMAIN-SUFFIX,mi.com,DIRECT
+  - DOMAIN-SUFFIX,miaopai.com,DIRECT
+  - DOMAIN-SUFFIX,microsoft.com,DIRECT
+  - DOMAIN-SUFFIX,microsoftonline.com,DIRECT
+  - DOMAIN-SUFFIX,miui.com,DIRECT
+  - DOMAIN-SUFFIX,miwifi.com,DIRECT
+  - DOMAIN-SUFFIX,mob.com,DIRECT
+  - DOMAIN-SUFFIX,netease.com,DIRECT
+  - DOMAIN-SUFFIX,office.com,DIRECT
+  - DOMAIN-SUFFIX,office365.com,DIRECT
+  - DOMAIN-KEYWORD,officecdn,DIRECT
+  - DOMAIN-SUFFIX,oschina.net,DIRECT
+  - DOMAIN-SUFFIX,ppsimg.com,DIRECT
+  - DOMAIN-SUFFIX,pstatp.com,DIRECT
+  - DOMAIN-SUFFIX,qcloud.com,DIRECT
+  - DOMAIN-SUFFIX,qdaily.com,DIRECT
+  - DOMAIN-SUFFIX,qdmm.com,DIRECT
+  - DOMAIN-SUFFIX,qhimg.com,DIRECT
+  - DOMAIN-SUFFIX,qhres.com,DIRECT
+  - DOMAIN-SUFFIX,qidian.com,DIRECT
+  - DOMAIN-SUFFIX,qihucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiniu.com,DIRECT
+  - DOMAIN-SUFFIX,qiniucdn.com,DIRECT
+  - DOMAIN-SUFFIX,qiyipic.com,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,qqurl.com,DIRECT
+  - DOMAIN-SUFFIX,rarbg.to,DIRECT
+  - DOMAIN-SUFFIX,ruguoapp.com,DIRECT
+  - DOMAIN-SUFFIX,segmentfault.com,DIRECT
+  - DOMAIN-SUFFIX,sinaapp.com,DIRECT
+  - DOMAIN-SUFFIX,smzdm.com,DIRECT
+  - DOMAIN-SUFFIX,snapdrop.net,DIRECT
+  - DOMAIN-SUFFIX,sogou.com,DIRECT
+  - DOMAIN-SUFFIX,sogoucdn.com,DIRECT
+  - DOMAIN-SUFFIX,sohu.com,DIRECT
+  - DOMAIN-SUFFIX,soku.com,DIRECT
+  - DOMAIN-SUFFIX,speedtest.net,DIRECT
+  - DOMAIN-SUFFIX,sspai.com,DIRECT
+  - DOMAIN-SUFFIX,suning.com,DIRECT
+  - DOMAIN-SUFFIX,taobao.com,DIRECT
+  - DOMAIN-SUFFIX,tencent.com,DIRECT
+  - DOMAIN-SUFFIX,tenpay.com,DIRECT
+  - DOMAIN-SUFFIX,tianyancha.com,DIRECT
+  - DOMAIN-SUFFIX,tmall.com,DIRECT
+  - DOMAIN-SUFFIX,tudou.com,DIRECT
+  - DOMAIN-SUFFIX,umetrip.com,DIRECT
+  - DOMAIN-SUFFIX,upaiyun.com,DIRECT
+  - DOMAIN-SUFFIX,upyun.com,DIRECT
+  - DOMAIN-SUFFIX,veryzhun.com,DIRECT
+  - DOMAIN-SUFFIX,weather.com,DIRECT
+  - DOMAIN-SUFFIX,weibo.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.com,DIRECT
+  - DOMAIN-SUFFIX,xiami.net,DIRECT
+  - DOMAIN-SUFFIX,xiaomicp.com,DIRECT
+  - DOMAIN-SUFFIX,ximalaya.com,DIRECT
+  - DOMAIN-SUFFIX,xmcdn.com,DIRECT
+  - DOMAIN-SUFFIX,xunlei.com,DIRECT
+  - DOMAIN-SUFFIX,yhd.com,DIRECT
+  - DOMAIN-SUFFIX,yihaodianimg.com,DIRECT
+  - DOMAIN-SUFFIX,yinxiang.com,DIRECT
+  - DOMAIN-SUFFIX,ykimg.com,DIRECT
+  - DOMAIN-SUFFIX,youdao.com,DIRECT
+  - DOMAIN-SUFFIX,youku.com,DIRECT
+  - DOMAIN-SUFFIX,zealer.com,DIRECT
+  - DOMAIN-SUFFIX,zhihu.com,DIRECT
+  - DOMAIN-SUFFIX,zhimg.com,DIRECT
+  - DOMAIN-SUFFIX,zimuzu.tv,DIRECT
+  - DOMAIN-SUFFIX,zoho.com,DIRECT
+
+  # 抗 DNS 污染
+  - DOMAIN-KEYWORD,amazon,🔰 节点选择
+  - DOMAIN-KEYWORD,google,🔰 节点选择
+  - DOMAIN-KEYWORD,gmail,🔰 节点选择
+  - DOMAIN-KEYWORD,youtube,🔰 节点选择
+  - DOMAIN-KEYWORD,facebook,🔰 节点选择
+  - DOMAIN-SUFFIX,fb.me,🔰 节点选择
+  - DOMAIN-SUFFIX,fbcdn.net,🔰 节点选择
+  - DOMAIN-KEYWORD,twitter,🔰 节点选择
+  - DOMAIN-KEYWORD,instagram,🔰 节点选择
+  - DOMAIN-KEYWORD,dropbox,🔰 节点选择
+  - DOMAIN-SUFFIX,twimg.com,🔰 节点选择
+  - DOMAIN-KEYWORD,blogspot,🔰 节点选择
+  - DOMAIN-SUFFIX,youtu.be,🔰 节点选择
+  - DOMAIN-KEYWORD,whatsapp,🔰 节点选择
+
+  # 常见广告域名屏蔽
+  - DOMAIN-KEYWORD,admarvel,REJECT
+  - DOMAIN-KEYWORD,admaster,REJECT
+  - DOMAIN-KEYWORD,adsage,REJECT
+  - DOMAIN-KEYWORD,adsmogo,REJECT
+  - DOMAIN-KEYWORD,adsrvmedia,REJECT
+  - DOMAIN-KEYWORD,adwords,REJECT
+  - DOMAIN-KEYWORD,adservice,REJECT
+  - DOMAIN-SUFFIX,appsflyer.com,REJECT
+  - DOMAIN-KEYWORD,domob,REJECT
+  - DOMAIN-SUFFIX,doubleclick.net,REJECT
+  - DOMAIN-KEYWORD,duomeng,REJECT
+  - DOMAIN-KEYWORD,dwtrack,REJECT
+  - DOMAIN-KEYWORD,guanggao,REJECT
+  - DOMAIN-KEYWORD,lianmeng,REJECT
+  - DOMAIN-SUFFIX,mmstat.com,REJECT
+  - DOMAIN-KEYWORD,mopub,REJECT
+  - DOMAIN-KEYWORD,omgmta,REJECT
+  - DOMAIN-KEYWORD,openx,REJECT
+  - DOMAIN-KEYWORD,partnerad,REJECT
+  - DOMAIN-KEYWORD,pingfore,REJECT
+  - DOMAIN-KEYWORD,supersonicads,REJECT
+  - DOMAIN-KEYWORD,uedas,REJECT
+  - DOMAIN-KEYWORD,umeng,REJECT
+  - DOMAIN-KEYWORD,usage,REJECT
+  - DOMAIN-SUFFIX,vungle.com,REJECT
+  - DOMAIN-KEYWORD,wlmonitor,REJECT
+  - DOMAIN-KEYWORD,zjtoolbar,REJECT
+
+  # 国外网站
+  - DOMAIN-SUFFIX,9to5mac.com,🔰 节点选择
+  - DOMAIN-SUFFIX,abpchina.org,🔰 节点选择
+  - DOMAIN-SUFFIX,adblockplus.org,🔰 节点选择
+  - DOMAIN-SUFFIX,adobe.com,🔰 节点选择
+  - DOMAIN-SUFFIX,akamaized.net,🔰 节点选择
+  - DOMAIN-SUFFIX,alfredapp.com,🔰 节点选择
+  - DOMAIN-SUFFIX,amplitude.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ampproject.org,🔰 节点选择
+  - DOMAIN-SUFFIX,android.com,🔰 节点选择
+  - DOMAIN-SUFFIX,angularjs.org,🔰 节点选择
+  - DOMAIN-SUFFIX,aolcdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,apkpure.com,🔰 节点选择
+  - DOMAIN-SUFFIX,appledaily.com,🔰 节点选择
+  - DOMAIN-SUFFIX,appshopper.com,🔰 节点选择
+  - DOMAIN-SUFFIX,appspot.com,🔰 节点选择
+  - DOMAIN-SUFFIX,arcgis.com,🔰 节点选择
+  - DOMAIN-SUFFIX,archive.org,🔰 节点选择
+  - DOMAIN-SUFFIX,armorgames.com,🔰 节点选择
+  - DOMAIN-SUFFIX,aspnetcdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,att.com,🔰 节点选择
+  - DOMAIN-SUFFIX,awsstatic.com,🔰 节点选择
+  - DOMAIN-SUFFIX,azureedge.net,🔰 节点选择
+  - DOMAIN-SUFFIX,azurewebsites.net,🔰 节点选择
+  - DOMAIN-SUFFIX,bing.com,🔰 节点选择
+  - DOMAIN-SUFFIX,bintray.com,🔰 节点选择
+  - DOMAIN-SUFFIX,bit.com,🔰 节点选择
+  - DOMAIN-SUFFIX,bit.ly,🔰 节点选择
+  - DOMAIN-SUFFIX,bitbucket.org,🔰 节点选择
+  - DOMAIN-SUFFIX,bjango.com,🔰 节点选择
+  - DOMAIN-SUFFIX,bkrtx.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blog.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blogcdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blogger.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blogsmithmedia.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blogspot.com,🔰 节点选择
+  - DOMAIN-SUFFIX,blogspot.hk,🔰 节点选择
+  - DOMAIN-SUFFIX,bloomberg.com,🔰 节点选择
+  - DOMAIN-SUFFIX,box.com,🔰 节点选择
+  - DOMAIN-SUFFIX,box.net,🔰 节点选择
+  - DOMAIN-SUFFIX,cachefly.net,🔰 节点选择
+  - DOMAIN-SUFFIX,chromium.org,🔰 节点选择
+  - DOMAIN-SUFFIX,cl.ly,🔰 节点选择
+  - DOMAIN-SUFFIX,cloudflare.com,🔰 节点选择
+  - DOMAIN-SUFFIX,cloudfront.net,🔰 节点选择
+  - DOMAIN-SUFFIX,cloudmagic.com,🔰 节点选择
+  - DOMAIN-SUFFIX,cmail19.com,🔰 节点选择
+  - DOMAIN-SUFFIX,cnet.com,🔰 节点选择
+  - DOMAIN-SUFFIX,cocoapods.org,🔰 节点选择
+  - DOMAIN-SUFFIX,comodoca.com,🔰 节点选择
+  - DOMAIN-SUFFIX,crashlytics.com,🔰 节点选择
+  - DOMAIN-SUFFIX,culturedcode.com,🔰 节点选择
+  - DOMAIN-SUFFIX,d.pr,🔰 节点选择
+  - DOMAIN-SUFFIX,danilo.to,🔰 节点选择
+  - DOMAIN-SUFFIX,dayone.me,🔰 节点选择
+  - DOMAIN-SUFFIX,db.tt,🔰 节点选择
+  - DOMAIN-SUFFIX,deskconnect.com,🔰 节点选择
+  - DOMAIN-SUFFIX,disq.us,🔰 节点选择
+  - DOMAIN-SUFFIX,disqus.com,🔰 节点选择
+  - DOMAIN-SUFFIX,disquscdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,dnsimple.com,🔰 节点选择
+  - DOMAIN-SUFFIX,docker.com,🔰 节点选择
+  - DOMAIN-SUFFIX,dribbble.com,🔰 节点选择
+  - DOMAIN-SUFFIX,droplr.com,🔰 节点选择
+  - DOMAIN-SUFFIX,duckduckgo.com,🔰 节点选择
+  - DOMAIN-SUFFIX,dueapp.com,🔰 节点选择
+  - DOMAIN-SUFFIX,dytt8.net,🔰 节点选择
+  - DOMAIN-SUFFIX,edgecastcdn.net,🔰 节点选择
+  - DOMAIN-SUFFIX,edgekey.net,🔰 节点选择
+  - DOMAIN-SUFFIX,edgesuite.net,🔰 节点选择
+  - DOMAIN-SUFFIX,engadget.com,🔰 节点选择
+  - DOMAIN-SUFFIX,entrust.net,🔰 节点选择
+  - DOMAIN-SUFFIX,eurekavpt.com,🔰 节点选择
+  - DOMAIN-SUFFIX,evernote.com,🔰 节点选择
+  - DOMAIN-SUFFIX,fabric.io,🔰 节点选择
+  - DOMAIN-SUFFIX,fast.com,🔰 节点选择
+  - DOMAIN-SUFFIX,fastly.net,🔰 节点选择
+  - DOMAIN-SUFFIX,fc2.com,🔰 节点选择
+  - DOMAIN-SUFFIX,feedburner.com,🔰 节点选择
+  - DOMAIN-SUFFIX,feedly.com,🔰 节点选择
+  - DOMAIN-SUFFIX,feedsportal.com,🔰 节点选择
+  - DOMAIN-SUFFIX,fiftythree.com,🔰 节点选择
+  - DOMAIN-SUFFIX,firebaseio.com,🔰 节点选择
+  - DOMAIN-SUFFIX,flexibits.com,🔰 节点选择
+  - DOMAIN-SUFFIX,flickr.com,🔰 节点选择
+  - DOMAIN-SUFFIX,flipboard.com,🔰 节点选择
+  - DOMAIN-SUFFIX,g.co,🔰 节点选择
+  - DOMAIN-SUFFIX,gabia.net,🔰 节点选择
+  - DOMAIN-SUFFIX,geni.us,🔰 节点选择
+  - DOMAIN-SUFFIX,gfx.ms,🔰 节点选择
+  - DOMAIN-SUFFIX,ggpht.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ghostnoteapp.com,🔰 节点选择
+  - DOMAIN-SUFFIX,git.io,🔰 节点选择
+  - DOMAIN-KEYWORD,github,🔰 节点选择
+  - DOMAIN-SUFFIX,globalsign.com,🔰 节点选择
+  - DOMAIN-SUFFIX,gmodules.com,🔰 节点选择
+  - DOMAIN-SUFFIX,godaddy.com,🔰 节点选择
+  - DOMAIN-SUFFIX,golang.org,🔰 节点选择
+  - DOMAIN-SUFFIX,gongm.in,🔰 节点选择
+  - DOMAIN-SUFFIX,goo.gl,🔰 节点选择
+  - DOMAIN-SUFFIX,goodreaders.com,🔰 节点选择
+  - DOMAIN-SUFFIX,goodreads.com,🔰 节点选择
+  - DOMAIN-SUFFIX,gravatar.com,🔰 节点选择
+  - DOMAIN-SUFFIX,gstatic.com,🔰 节点选择
+  - DOMAIN-SUFFIX,gvt0.com,🔰 节点选择
+  - DOMAIN-SUFFIX,hockeyapp.net,🔰 节点选择
+  - DOMAIN-SUFFIX,hotmail.com,🔰 节点选择
+  - DOMAIN-SUFFIX,icons8.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ifixit.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ift.tt,🔰 节点选择
+  - DOMAIN-SUFFIX,ifttt.com,🔰 节点选择
+  - DOMAIN-SUFFIX,iherb.com,🔰 节点选择
+  - DOMAIN-SUFFIX,imageshack.us,🔰 节点选择
+  - DOMAIN-SUFFIX,img.ly,🔰 节点选择
+  - DOMAIN-SUFFIX,imgur.com,🔰 节点选择
+  - DOMAIN-SUFFIX,imore.com,🔰 节点选择
+  - DOMAIN-SUFFIX,instapaper.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ipn.li,🔰 节点选择
+  - DOMAIN-SUFFIX,is.gd,🔰 节点选择
+  - DOMAIN-SUFFIX,issuu.com,🔰 节点选择
+  - DOMAIN-SUFFIX,itgonglun.com,🔰 节点选择
+  - DOMAIN-SUFFIX,itun.es,🔰 节点选择
+  - DOMAIN-SUFFIX,ixquick.com,🔰 节点选择
+  - DOMAIN-SUFFIX,j.mp,🔰 节点选择
+  - DOMAIN-SUFFIX,js.revsci.net,🔰 节点选择
+  - DOMAIN-SUFFIX,jshint.com,🔰 节点选择
+  - DOMAIN-SUFFIX,jtvnw.net,🔰 节点选择
+  - DOMAIN-SUFFIX,justgetflux.com,🔰 节点选择
+  - DOMAIN-SUFFIX,kat.cr,🔰 节点选择
+  - DOMAIN-SUFFIX,klip.me,🔰 节点选择
+  - DOMAIN-SUFFIX,libsyn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,linode.com,🔰 节点选择
+  - DOMAIN-SUFFIX,lithium.com,🔰 节点选择
+  - DOMAIN-SUFFIX,littlehj.com,🔰 节点选择
+  - DOMAIN-SUFFIX,live.com,🔰 节点选择
+  - DOMAIN-SUFFIX,live.net,🔰 节点选择
+  - DOMAIN-SUFFIX,livefilestore.com,🔰 节点选择
+  - DOMAIN-SUFFIX,llnwd.net,🔰 节点选择
+  - DOMAIN-SUFFIX,macid.co,🔰 节点选择
+  - DOMAIN-SUFFIX,macromedia.com,🔰 节点选择
+  - DOMAIN-SUFFIX,macrumors.com,🔰 节点选择
+  - DOMAIN-SUFFIX,mashable.com,🔰 节点选择
+  - DOMAIN-SUFFIX,mathjax.org,🔰 节点选择
+  - DOMAIN-SUFFIX,medium.com,🔰 节点选择
+  - DOMAIN-SUFFIX,mega.co.nz,🔰 节点选择
+  - DOMAIN-SUFFIX,mega.nz,🔰 节点选择
+  - DOMAIN-SUFFIX,megaupload.com,🔰 节点选择
+  - DOMAIN-SUFFIX,microsofttranslator.com,🔰 节点选择
+  - DOMAIN-SUFFIX,mindnode.com,🔰 节点选择
+  - DOMAIN-SUFFIX,mobile01.com,🔰 节点选择
+  - DOMAIN-SUFFIX,modmyi.com,🔰 节点选择
+  - DOMAIN-SUFFIX,msedge.net,🔰 节点选择
+  - DOMAIN-SUFFIX,myfontastic.com,🔰 节点选择
+  - DOMAIN-SUFFIX,name.com,🔰 节点选择
+  - DOMAIN-SUFFIX,nextmedia.com,🔰 节点选择
+  - DOMAIN-SUFFIX,nsstatic.net,🔰 节点选择
+  - DOMAIN-SUFFIX,nssurge.com,🔰 节点选择
+  - DOMAIN-SUFFIX,nyt.com,🔰 节点选择
+  - DOMAIN-SUFFIX,nytimes.com,🔰 节点选择
+  - DOMAIN-SUFFIX,omnigroup.com,🔰 节点选择
+  - DOMAIN-SUFFIX,onedrive.com,🔰 节点选择
+  - DOMAIN-SUFFIX,onenote.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ooyala.com,🔰 节点选择
+  - DOMAIN-SUFFIX,openvpn.net,🔰 节点选择
+  - DOMAIN-SUFFIX,openwrt.org,🔰 节点选择
+  - DOMAIN-SUFFIX,orkut.com,🔰 节点选择
+  - DOMAIN-SUFFIX,osxdaily.com,🔰 节点选择
+  - DOMAIN-SUFFIX,outlook.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ow.ly,🔰 节点选择
+  - DOMAIN-SUFFIX,paddleapi.com,🔰 节点选择
+  - DOMAIN-SUFFIX,parallels.com,🔰 节点选择
+  - DOMAIN-SUFFIX,parse.com,🔰 节点选择
+  - DOMAIN-SUFFIX,pdfexpert.com,🔰 节点选择
+  - DOMAIN-SUFFIX,periscope.tv,🔰 节点选择
+  - DOMAIN-SUFFIX,pinboard.in,🔰 节点选择
+  - DOMAIN-SUFFIX,pinterest.com,🔰 节点选择
+  - DOMAIN-SUFFIX,pixelmator.com,🔰 节点选择
+  - DOMAIN-SUFFIX,pixiv.net,🔰 节点选择
+  - DOMAIN-SUFFIX,playpcesor.com,🔰 节点选择
+  - DOMAIN-SUFFIX,playstation.com,🔰 节点选择
+  - DOMAIN-SUFFIX,playstation.com.hk,🔰 节点选择
+  - DOMAIN-SUFFIX,playstation.net,🔰 节点选择
+  - DOMAIN-SUFFIX,playstationnetwork.com,🔰 节点选择
+  - DOMAIN-SUFFIX,pushwoosh.com,🔰 节点选择
+  - DOMAIN-SUFFIX,rime.im,🔰 节点选择
+  - DOMAIN-SUFFIX,servebom.com,🔰 节点选择
+  - DOMAIN-SUFFIX,sfx.ms,🔰 节点选择
+  - DOMAIN-SUFFIX,shadowsocks.org,🔰 节点选择
+  - DOMAIN-SUFFIX,sharethis.com,🔰 节点选择
+  - DOMAIN-SUFFIX,shazam.com,🔰 节点选择
+  - DOMAIN-SUFFIX,skype.com,🔰 节点选择
+  - DOMAIN-SUFFIX,smartdns🔰 节点选择.com,🔰 节点选择
+  - DOMAIN-SUFFIX,smartmailcloud.com,🔰 节点选择
+  - DOMAIN-SUFFIX,sndcdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,sony.com,🔰 节点选择
+  - DOMAIN-SUFFIX,soundcloud.com,🔰 节点选择
+  - DOMAIN-SUFFIX,sourceforge.net,🔰 节点选择
+  - DOMAIN-SUFFIX,spotify.com,🔰 节点选择
+  - DOMAIN-SUFFIX,squarespace.com,🔰 节点选择
+  - DOMAIN-SUFFIX,sstatic.net,🔰 节点选择
+  - DOMAIN-SUFFIX,st.luluku.pw,🔰 节点选择
+  - DOMAIN-SUFFIX,stackoverflow.com,🔰 节点选择
+  - DOMAIN-SUFFIX,startpage.com,🔰 节点选择
+  - DOMAIN-SUFFIX,staticflickr.com,🔰 节点选择
+  - DOMAIN-SUFFIX,steamcommunity.com,🔰 节点选择
+  - DOMAIN-SUFFIX,symauth.com,🔰 节点选择
+  - DOMAIN-SUFFIX,symcb.com,🔰 节点选择
+  - DOMAIN-SUFFIX,symcd.com,🔰 节点选择
+  - DOMAIN-SUFFIX,tapbots.com,🔰 节点选择
+  - DOMAIN-SUFFIX,tapbots.net,🔰 节点选择
+  - DOMAIN-SUFFIX,tdesktop.com,🔰 节点选择
+  - DOMAIN-SUFFIX,techcrunch.com,🔰 节点选择
+  - DOMAIN-SUFFIX,techsmith.com,🔰 节点选择
+  - DOMAIN-SUFFIX,thepiratebay.org,🔰 节点选择
+  - DOMAIN-SUFFIX,theverge.com,🔰 节点选择
+  - DOMAIN-SUFFIX,time.com,🔰 节点选择
+  - DOMAIN-SUFFIX,timeinc.net,🔰 节点选择
+  - DOMAIN-SUFFIX,tiny.cc,🔰 节点选择
+  - DOMAIN-SUFFIX,tinypic.com,🔰 节点选择
+  - DOMAIN-SUFFIX,tmblr.co,🔰 节点选择
+  - DOMAIN-SUFFIX,todoist.com,🔰 节点选择
+  - DOMAIN-SUFFIX,trello.com,🔰 节点选择
+  - DOMAIN-SUFFIX,trustasiassl.com,🔰 节点选择
+  - DOMAIN-SUFFIX,tumblr.co,🔰 节点选择
+  - DOMAIN-SUFFIX,tumblr.com,🔰 节点选择
+  - DOMAIN-SUFFIX,tweetdeck.com,🔰 节点选择
+  - DOMAIN-SUFFIX,tweetmarker.net,🔰 节点选择
+  - DOMAIN-SUFFIX,twitch.tv,🔰 节点选择
+  - DOMAIN-SUFFIX,txmblr.com,🔰 节点选择
+  - DOMAIN-SUFFIX,typekit.net,🔰 节点选择
+  - DOMAIN-SUFFIX,ubertags.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ublock.org,🔰 节点选择
+  - DOMAIN-SUFFIX,ubnt.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ulyssesapp.com,🔰 节点选择
+  - DOMAIN-SUFFIX,urchin.com,🔰 节点选择
+  - DOMAIN-SUFFIX,usertrust.com,🔰 节点选择
+  - DOMAIN-SUFFIX,v.gd,🔰 节点选择
+  - DOMAIN-SUFFIX,v2ex.com,🔰 节点选择
+  - DOMAIN-SUFFIX,vimeo.com,🔰 节点选择
+  - DOMAIN-SUFFIX,vimeocdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,vine.co,🔰 节点选择
+  - DOMAIN-SUFFIX,vivaldi.com,🔰 节点选择
+  - DOMAIN-SUFFIX,vox-cdn.com,🔰 节点选择
+  - DOMAIN-SUFFIX,vsco.co,🔰 节点选择
+  - DOMAIN-SUFFIX,vultr.com,🔰 节点选择
+  - DOMAIN-SUFFIX,w.org,🔰 节点选择
+  - DOMAIN-SUFFIX,w3schools.com,🔰 节点选择
+  - DOMAIN-SUFFIX,webtype.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wikiwand.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wikileaks.org,🔰 节点选择
+  - DOMAIN-SUFFIX,wikimedia.org,🔰 节点选择
+  - DOMAIN-SUFFIX,wikipedia.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wikipedia.org,🔰 节点选择
+  - DOMAIN-SUFFIX,windows.com,🔰 节点选择
+  - DOMAIN-SUFFIX,windows.net,🔰 节点选择
+  - DOMAIN-SUFFIX,wire.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wordpress.com,🔰 节点选择
+  - DOMAIN-SUFFIX,workflowy.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wp.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wsj.com,🔰 节点选择
+  - DOMAIN-SUFFIX,wsj.net,🔰 节点选择
+  - DOMAIN-SUFFIX,xda-developers.com,🔰 节点选择
+  - DOMAIN-SUFFIX,xeeno.com,🔰 节点选择
+  - DOMAIN-SUFFIX,xiti.com,🔰 节点选择
+  - DOMAIN-SUFFIX,yahoo.com,🔰 节点选择
+  - DOMAIN-SUFFIX,yimg.com,🔰 节点选择
+  - DOMAIN-SUFFIX,ying.com,🔰 节点选择
+  - DOMAIN-SUFFIX,yoyo.org,🔰 节点选择
+  - DOMAIN-SUFFIX,ytimg.com,🔰 节点选择
+
+  # Telegram
+  - DOMAIN-SUFFIX,telegra.ph,🔰 节点选择
+  - DOMAIN-SUFFIX,telegram.org,🔰 节点选择
+  - IP-CIDR,91.108.4.0/22,🔰 节点选择
+  - IP-CIDR,91.108.8.0/21,🔰 节点选择
+  - IP-CIDR,91.108.16.0/22,🔰 节点选择
+  - IP-CIDR,91.108.56.0/22,🔰 节点选择
+  - IP-CIDR,149.154.160.0/20,🔰 节点选择
+  - IP-CIDR6,2001:67c:4e8::/48,🔰 节点选择
+  - IP-CIDR6,2001:b28:f23d::/48,🔰 节点选择
+  - IP-CIDR6,2001:b28:f23f::/48,🔰 节点选择
+
+  # LAN
+  - DOMAIN,injections.adguard.org,DIRECT
+  - DOMAIN,local.adguard.org,DIRECT
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT
+  - IP-CIDR,172.16.0.0/12,DIRECT
+  - IP-CIDR,192.168.0.0/16,DIRECT
+  - IP-CIDR,10.0.0.0/8,DIRECT
+  - IP-CIDR,17.0.0.0/8,DIRECT
+  - IP-CIDR,100.64.0.0/10,DIRECT
+  - IP-CIDR,224.0.0.0/4,DIRECT
+  - IP-CIDR6,fe80::/10,DIRECT
+
+  # 最终规则
+  - GEOIP,CN,DIRECT
+  - MATCH,🔰 节点选择
