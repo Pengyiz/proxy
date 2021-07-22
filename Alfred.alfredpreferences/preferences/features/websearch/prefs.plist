@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>customSites</key>
+	<dict>
+		<key>0C548366-4519-4F38-9FAC-0E34F3B90758</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>baidu</string>
+			<key>text</key>
+			<string>Search Baidu for '{query}'</string>
+			<key>url</key>
+			<string>http://www.baidu.com/s?wd={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>17C053E5-2696-4C94-A4B2-1496463E82B7</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>e</string>
+			<key>text</key>
+			<string>Search CODELF for '{query}'</string>
+			<key>url</key>
+			<string>https://unbug.github.io/codelf/#{query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>48692371-1434-490D-92F5-7E8B9CDAE489</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>scholar</string>
+			<key>text</key>
+			<string>Search Google Scholar for '{query}'</string>
+			<key>url</key>
+			<string>https://scholar.google.com/scholar?q='{query}'</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>807B09B1-40C8-495E-9943-C460B71665BD</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>taobao</string>
+			<key>text</key>
+			<string>Search Taobao for '{query}'</string>
+			<key>url</key>
+			<string>http://s.taobao.com/search?q='{query}'</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>8EF27443-FDFE-46F9-B67B-6065DB24568B</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>jd</string>
+			<key>text</key>
+			<string>Search JD for '{query}'</string>
+			<key>url</key>
+			<string>http://search.jd.com/Search?keyword={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>AE2D21FC-7B94-4B48-A642-D2E72243CC82</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>zh</string>
+			<key>text</key>
+			<string>Search Zhihu for '{query}'</string>
+			<key>url</key>
+			<string>http://www.zhihu.com/search?q='{query}'</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>F3D18422-A424-4FCA-9171-12A0B10A7CFE</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>bt</string>
+			<key>text</key>
+			<string>Search BTKiKi for '{query}'</string>
+			<key>url</key>
+			<string>http://www.btkiki.com/s/{query}.html</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+		<key>F558A9B2-47A6-4CD8-A507-217F05B1C833</key>
+		<dict>
+			<key>enabled</key>
+			<true/>
+			<key>keyword</key>
+			<string>mba</string>
+			<key>text</key>
+			<string>Search MBAlib for '{query}'</string>
+			<key>url</key>
+			<string>http://wiki.mbalib.com/wiki/Special:Search?search={query}</string>
+			<key>utf8</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>
